@@ -53,7 +53,7 @@ Needs JDK 17 or newer (Gradle downloads it if missing); the jar runs on Java 8.
 
 ```sh
 git submodule update --init
-./gradlew bcuKrZip      # build/dist/BCU-KR-<version>.zip
+./gradlew bcuKrZip --no-configuration-cache   # build/dist/BCU-KR-<version>.zip
 ```
 
 ### Publishing a release
