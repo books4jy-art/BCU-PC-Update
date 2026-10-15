@@ -146,8 +146,14 @@ public class BCJSON {
 		return load;
 	}
 
+	/**
+	 * BCU KR: this copy is updated from its own repository (books4jy-art/BCU-PC-Update); the official jars listed in
+	 * BCU's update information would replace it, so they're not offered.
+	 */
+	private static final boolean OFFER_OFFICIAL_JARS = false;
+
 	private static UpdateJson.JarJson[] getLatestJars(UpdateJson json) {
-		if (json == null)
+		if (json == null || !OFFER_OFFICIAL_JARS)
 			return null;
 
 		List<UpdateJson.JarJson> jars = new ArrayList<>();
