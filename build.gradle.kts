@@ -12,6 +12,8 @@ repositories {
     mavenLocal()
     maven {
         url = uri("https://jogamp.org/deployment/maven/")
+        // BCU KR: only JOGL comes from here, so the other libraries don't depend on this server being reachable
+        content { includeGroupByRegex("org\\.jogamp.*") }
     }
 
     maven {
