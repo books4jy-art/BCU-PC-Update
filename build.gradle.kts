@@ -69,10 +69,44 @@ tasks.withType<JavaCompile> {
     options.release = 8
 }
 
+// (src/main/resources is listed in sourceSets on top of Gradle's default, so each resource comes twice: same file)
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 tasks.withType<Javadoc> {
     options.encoding = "UTF-8"
 }
 
 kotlin {
-    jvmToolchain(8)
+    // Compiled with JDK 17 into Java 8 classes (Java's --release 8, Kotlin's jvmTarget 1.8), so BCU still runs on
+    // Java 8. (Java 8's own compiler can't build the core: it has no --release flag and resolves some generic calls
+    // in the core differently.)
+    jvmToolchain(17)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+    }
+}
+// BCU KR: a ready-to-run zip: BCU-KR.jar (starts with a double-click or `java -jar BCU-KR.jar`), its libraries in
+// lib/ and a short read-me. Official BCU is started by BCU-Initializer.jar instead, which downloads the official jar.
+val bcuKrVersion = "0.5.8.8-kr1" // BCU PC 0.5.8.8 (MainBCU.ver 50808) + this copy's changes
+
+tasks.jar {
+    archiveFileName.set("BCU-KR.jar")
+    val libs = configurations.runtimeClasspath.map { c -> c.files.joinToString(" ") { "lib/" + it.name } }
+    manifest {
+        attributes("Main-Class" to "main.MainBCU", "Class-Path" to libs)
+    }
+}
+
+val bcuKrZip by tasks.registering(Zip::class) {
+    group = "distribution"
+    description = "Builds build/dist/BCU-KR-<version>.zip"
+    archiveFileName.set("BCU-KR-$bcuKrVersion.zip")
+    destinationDirectory.set(layout.buildDirectory.dir("dist"))
+    into("BCU-KR") {
+        from(tasks.jar)
+        from(configurations.runtimeClasspath) { into("lib") }
+        from("dist")
+    }
 }
