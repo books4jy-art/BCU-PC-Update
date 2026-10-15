@@ -33,3 +33,6 @@
 /.gradle/
 /build/
 *.log
+# downloads of tools/country_data.py
+tools/.cache/
+__pycache__/

@@ -99,6 +99,8 @@ public class MainBCU {
 		public void initProfile() {
 			LoadPage.prog("reading assets");
 			AssetLoader.load(LoadPage::prog);
+			// BCU KR: the chosen country's versions of files that differ from BCU's (see io.CountryData)
+			LoadPage.prog("reading country data (" + io.CountryData.apply() + " files)");
 			LoadPage.prog("reading BC data");
 			UserProfile.getBCData().load(LoadPage::prog, LoadPage::prog);
 			LoadPage.prog("reading backups");

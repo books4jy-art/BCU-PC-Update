@@ -90,6 +90,9 @@ public class ConfigPage extends Page {
 	private final JCB reallv = new JCB(MainLocale.PAGE, "reallv");
 	private final JCB jcdrag = new JCB(MainLocale.PAGE, "dragcomp");
 
+	// BCU KR: which country's game data to use (io.CountryData); applies when BCU starts
+	private final JL jlgv = new JL(CommonStatic.getConfig().lang == CommonStatic.Lang.Locale.KR ? "게임 버전 (다시 시작하면 적용)" : "Game version (applies after restarting BCU)");
+	private final JComboBox<String> gver = new JComboBox<>(CommonStatic.getConfig().lang == CommonStatic.Lang.Locale.KR ? io.CountryData.NAMES_KR : io.CountryData.NAMES);
 	private final JL comv = new JL(Page.get(MainLocale.PAGE, "CORE Ver: ") + AssetLoader.CORE_VER);
 
 	private final JScrollPane jsps = new JScrollPane(jls);
@@ -193,6 +196,8 @@ public class ConfigPage extends Page {
 		set(exla, x, y, 1750, 475, 300, 50);
 		set(extt, x, y, 1750, 550, 300, 50);
 		set(rlla, x, y, 1750, 625, 300, 50);
+		set(jlgv, x, y, 1750, 700, 450, 50);
+		set(gver, x, y, 1750, 750, 300, 50);
 
 		set(comv, x, y, 1950, 1200, 300, 50);
 	}
@@ -316,6 +321,12 @@ public class ConfigPage extends Page {
 			}
 		});
 
+		gver.addActionListener(e -> {
+			int i = gver.getSelectedIndex();
+			if (i >= 0 && !io.CountryData.CODES[i].equals(io.CountryData.chosen()))
+				io.CountryData.choose(io.CountryData.CODES[i]);
+		});
+
 		jls.addListSelectionListener(arg0 -> {
 			if (changing)
 				return;
@@ -431,6 +442,9 @@ public class ConfigPage extends Page {
 	private void ini() {
 		add(back);
 		add(comv);
+		add(jlgv);
+		add(gver);
+		gver.setSelectedIndex(Math.max(0, java.util.Arrays.asList(io.CountryData.CODES).indexOf(io.CountryData.chosen())));
 		add(jogl);
 		add(prel);
 		add(refe);
