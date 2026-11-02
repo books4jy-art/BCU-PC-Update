@@ -259,8 +259,9 @@ def main() -> None:
         if p.startswith("./org/unit/"):
             if len(a) != len(b):
                 return p, f"{len(a)} forms, BCU has {len(b)}"
+            # the game's placeholder repeats the basic Cat's forms (often its first form for every form)
             if placeholder is not None and not p.endswith("/unit000.csv") and \
-                    [ints(r)[:15] for r in a] == [ints(r)[:15] for r in placeholder[:len(a)]]:
+                    all(ints(r)[:15] in [ints(q)[:15] for q in placeholder] for r in a):
                 return p, "a placeholder in this version (cat not released yet, or removed after a collaboration)"
             for r in a:
                 v = ints(r)

@@ -36,7 +36,8 @@ What's different from the official BCU:
   shipped inside the jar (`src/main/resources/country/<kr|jp|en|tw>`) and put in place of BCU's files after the
   asset packs are read (`src/main/java/io/CountryData.java`, called from `MainBCU`):
   - Korea 15.6.1: 86 stage files, plus 78 Korean enemy bases and backgrounds from the Korean server packs;
-  - Japan 15.7.2 (BCU has 15.7): 5 stage files, 1 cat's stats;
+  - Japan 15.7.2 (BCU has 15.7): 5 stage files (15.7.2's cat 740 is the game's placeholder for a removed collab
+    cat, so it isn't taken);
   - English 15.6.1 and Taiwan 15.6.1: 59 stage files each;
   - or BCU's own data unchanged. The choice is kept in `user/game_version.txt`.
 
