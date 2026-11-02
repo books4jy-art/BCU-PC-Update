@@ -42,14 +42,14 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 CACHE = os.path.join(ROOT, "tools", ".cache")
 SOURCE = ("https://git.battlecatsmodding.org/fieryhenry/BCData/{kind}/commit/"
-          "2a49665d0135283dc5c86e8d5825bb120b2849d7/game_data/{country}/{version}/DataLocal")
+          "8644713249966c10a880e056c2f3e58fe21cd4a3/game_data/{country}/{version}/DataLocal")
 
 # BCU's asset packs (as tools/build_index.py of the Battle Cats Emulator website, and the core's AssetLoader)
 UPDATE_URL = "https://raw.githubusercontent.com/battlecatsultimate/bcu-page/master/api/updateInfo.json"
 ASSET_URL = "https://raw.githubusercontent.com/battlecatsultimate/bcu-assets/master/assets/{id}.asset.bcuzip"
-CORE_VER = "0.7.20.0"  # AssetLoader.CORE_VER of the core this app uses
+CORE_VER = "0.7.22.0"  # AssetLoader.CORE_VER of the core this app uses
 HEAD = hashlib.md5(b"battlecatsultimate").digest()
-TALENT_TYPES = 70  # Data.PC_CORRES in core 0.7.20.0 knows talent types 0-69
+TALENT_TYPES = 73  # Data.PC_CORRES in core 0.7.22.0 knows talent types 0-72
 
 SEQUENTIAL = {"t_unit.csv": "enemy", "unitbuy.csv": "unit", "unitlevel.csv": "unit"}
 DATA_FILES = {"t_unit.csv", "unitbuy.csv", "unitlevel.csv", "SkillAcquisition.csv", "equipmentslot.csv",

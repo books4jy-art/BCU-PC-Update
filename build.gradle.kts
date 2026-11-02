@@ -91,7 +91,7 @@ kotlin {
 }
 // BCU KR: a ready-to-run zip: BCU-KR.jar (starts with a double-click or `java -jar BCU-KR.jar`), its libraries in
 // lib/ and a short read-me. Official BCU is started by BCU-Initializer.jar instead, which downloads the official jar.
-val bcuKrVersion = "0.5.8.8-kr1" // BCU PC 0.5.8.8 (MainBCU.ver 50808) + this copy's changes
+val bcuKrVersion = "0.5.8.9-kr1" // BCU PC 0.5.8.9 (MainBCU.ver 50809) + this copy's changes
 
 tasks.jar {
     archiveFileName.set("BCU-KR.jar")
