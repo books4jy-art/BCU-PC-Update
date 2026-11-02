@@ -338,6 +338,12 @@ public class MainBCU {
 	}
 
 	public static void main(String[] args) {
+		// BCU KR: Java 9+ on Windows draws everything at the display scale (e.g. 150% = 2.25x the pixels), which makes
+		// battles (drawn without the graphics card unless JOGL is on) much slower than on Java 8, which BCU is made for.
+		// Draw at 100% as Java 8 does, unless the user set it (java -Dsun.java2d.uiScale=...). Must run before any window.
+		if (System.getProperty("sun.java2d.uiScale") == null && !System.getProperty("java.specification.version", "1.8")
+				.startsWith("1.") && System.getProperty("os.name", "").toLowerCase().startsWith("windows"))
+			System.setProperty("sun.java2d.uiScale", "1");
 		Thread.setDefaultUncaughtExceptionHandler(MainBCU::noticeErr);
 		trueRun = true;
 		UserProfile.profile();

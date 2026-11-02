@@ -38,6 +38,10 @@ What's different from the official BCU:
 - **Text the core doesn't have yet**: the Shortened CD ability's name and description (PackPack's wording) and English
   talent names 69-72 (`util.properties`). The unit info page also lists Shortened CD.
 - **"Settings"**: the English main menu button reads Settings instead of Configuration.
+- **Delay immunity for cats**: cat stats column 117 (Catman Forever, Saber Alter, Teravolta) makes the cat immune to
+  cooldown delay; the core only reads delay for enemies (`src/core-patch/.../battle/data/DataUnit.java`).
+- **Battle speed on newer Java**: on Windows with Java 9+, BCU KR draws at 100% (`sun.java2d.uiScale=1`) as on Java 8;
+  at a 150% display scale Java 9+ otherwise draws 2.25x the pixels every frame. Set `-Dsun.java2d.uiScale=` to override.
 - **Country versions** (Settings > Game version; Korea by default; applies when BCU next starts): the game's
   versions of files that differ from BCU's (Japanese 15.7) ones, from each country's newest version in
   [fieryhenry/BCData](https://git.battlecatsmodding.org/fieryhenry/BCData/src/commit/8644713249966c10a880e056c2f3e58fe21cd4a3/game_data),

@@ -3,7 +3,7 @@ https://github.com/books4jy-art/BCU-PC-Update
 
 Not made by me: Battle Cats Ultimate is by the BCU team (github.com/battlecatsultimate); Battle Cats is (c) PONOS.
 
-1. Install Java (version 8 or newer): https://www.java.com/en/download/manual.jsp (64-bit).
+1. Install Java 8 (64-bit): https://www.java.com/en/download/manual.jsp. Newer Java works too.
 2. Keep this folder together (BCU-KR.jar and the lib folder) somewhere you can write to, for example your Documents.
    BCU saves its game data, packs and settings in this folder, separately from any official BCU.
 3. Start BCU-KR.jar (double-click it, or run: java -jar BCU-KR.jar).
@@ -13,10 +13,13 @@ Game version: Settings > Game version: Korea 15.6 (default), Japan 15.7, English
 or BCU's own data (Japan 15.7).
 It applies the next time BCU starts.
 
+If battles are slow: Settings > turn on JOGL (draws with the graphics card) and restart BCU.
+
 BCU KR (PC용 배틀 캣츠 얼티밋: BCU 코어 0.7.22.0 + 나라별 게임 데이터)
-1. 자바(8 이상)를 설치하세요: https://www.java.com/ko/download/manual.jsp (64비트).
+1. 자바 8(64비트)을 설치하세요: https://www.java.com/ko/download/manual.jsp. 더 새로운 자바도 돼요.
 2. 이 폴더(BCU-KR.jar와 lib 폴더)를 함께, 쓰기 가능한 곳(예: 문서)에 두세요. 게임 데이터와 설정은 이 폴더에
    저장되고, 공식 BCU와는 따로 보관돼요.
 3. BCU-KR.jar를 실행하세요 (더블클릭, 또는 java -jar BCU-KR.jar). 처음 실행할 때 게임 데이터(수백 MB)를 받아요.
 게임 버전: 설정 > 게임 버전에서 한국판 15.6(기본), 일본판 15.7, 영어판·대만판 15.6 또는 BCU 기본 데이터(일본판 15.7)를 고를 수
 있어요. 다음에 BCU를 시작할 때 적용돼요.
+전투가 느리면: 설정 > JOGL을 켜고(그래픽 카드로 그려요) BCU를 다시 시작하세요.

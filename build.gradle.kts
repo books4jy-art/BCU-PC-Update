@@ -28,12 +28,14 @@ repositories {
 // own file (core a3fb0117) with one change:
 // - util/lang/Formatter.java: Context.ordinal() written for Java 8 (the core uses Java 14 switch expressions);
 // - pack/Source.java, util/anim/AnimCE.java: official BCU PC 0.5.8.9's fix for renaming animations deleting them
-//   (core slow_kotlin 599a614d, a8ec3b34), which the core's data_focus branch doesn't have.
+//   (core slow_kotlin 599a614d, a8ec3b34), which the core's data_focus branch doesn't have;
+// - battle/data/DataUnit.java: reads cat stats column 117 (immune to cooldown delay), which the core doesn't.
 // checkCorePatches stops the build when a core file changes, so a copy is redone rather than hiding a newer core.
 val corePatches = mapOf( // path under src/main/java/common -> sha256 of the core's file the copy was made from
     "util/lang/Formatter.java" to "9d330ccda6b4d650da659cacd4a7a18ae0e7e67f6aa1842fb040e2ad5ddab3e8",
     "pack/Source.java" to "7c1bad260a0c893a8ddc253ff8817f6ed7849501c5979291a8a695c758b17a31",
     "util/anim/AnimCE.java" to "2aa37259b6db443a6ae6103261b8af4a44a4c6f565992fdbe7b22506c1c95043",
+    "battle/data/DataUnit.java" to "7713d87fa09fc466d05e39a71fbf0395e26fa14b37d89d516e42754a10cda806",
 )
 fun isPatchedCoreFile(f: File) = corePatches.keys.any { f.invariantSeparatorsPath.endsWith("src/main/java/common/$it") }
 
@@ -132,7 +134,7 @@ kotlin {
 }
 // BCU KR: a ready-to-run zip: BCU-KR.jar (starts with a double-click or `java -jar BCU-KR.jar`), its libraries in
 // lib/ and a short read-me. Official BCU is started by BCU-Initializer.jar instead, which downloads the official jar.
-val bcuKrVersion = "0.5.8.9-kr2" // BCU PC 0.5.8.9 (MainBCU.ver 50809) + this copy's changes
+val bcuKrVersion = "0.5.8.9-kr3" // BCU PC 0.5.8.9 (MainBCU.ver 50809) + this copy's changes
 
 tasks.jar {
     archiveFileName.set("BCU-KR.jar")
