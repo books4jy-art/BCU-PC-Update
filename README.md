@@ -22,10 +22,12 @@ What's different from the official BCU:
 
 - **Core 0.7.22.0** (BCU_java_util_common `data_focus` at `a3fb0117`, the same core as BCU's PackPack bot: game
   versions **15.6 and 15.7**, with 15.7's talent slots ("ultra talent" expansion), Damage+ / Health+ talents and the
-  Shortened Cooldown ability). Official BCU PC is still on core 0.7.19.1. To run this core on Java 8:
-  - `src/java8/java/common/util/lang/Formatter.java` is the core's file with one method (`ordinal`) written for Java 8;
-    the build uses it instead of the core's and stops if the core's file changes (`checkCoreFormatter`).
-  - BCU PC's two `Formatter.Context` calls pass the language, as the new core expects.
+  Shortened Cooldown ability). Official BCU PC is still on core 0.7.19.1. Three core files are replaced at build
+  time by copies in `src/core-patch/java` (the build stops if the core's original changes, `checkCorePatches`):
+  - `util/lang/Formatter.java`: one method (`ordinal`) written for Java 8, so BCU still runs on Java 8;
+  - `pack/Source.java`, `util/anim/AnimCE.java`: official 0.5.8.9's fix for renaming animations deleting them (on the
+    core's `slow_kotlin` branch, not yet on `data_focus`).
+  BCU PC's two `Formatter.Context` calls pass the language, as the new core expects.
 - **Text the core and BCU's downloads don't have yet** (`io/LangExtra.java`, `src/main/resources/bcukr/`): the
   Shortened CD ability's name and description (English, Korean), talent names 69-72 in English (`util.properties`)
   and Korean talent names 61-72 (BCU's Korean file stops at 60), with PackPack's wording. Downloaded or newer core text

@@ -24,18 +24,24 @@ repositories {
     mavenCentral()
 }
 
-// BCU KR: the core's common/util/lang/Formatter.java uses Java 14 switch expressions; src/java8/java has the same file
-// written for Java 8 (only Context.ordinal() differs) and is compiled instead. checkCoreFormatter stops the build when
-// the core's file changes, so the copy is redone from the new file rather than hiding it.
-val coreFormatter = "src/main/java/common/util/lang/Formatter.java"
-val coreFormatterSha256 = "9d330ccda6b4d650da659cacd4a7a18ae0e7e67f6aa1842fb040e2ad5ddab3e8" // core a3fb0117
-fun isCoreFormatter(f: File) = f.invariantSeparatorsPath.endsWith(coreFormatter)
+// BCU KR: core files replaced at build time (src/core-patch/java has the same path under common/). Each is the core's
+// own file (core a3fb0117) with one change:
+// - util/lang/Formatter.java: Context.ordinal() written for Java 8 (the core uses Java 14 switch expressions);
+// - pack/Source.java, util/anim/AnimCE.java: official BCU PC 0.5.8.9's fix for renaming animations deleting them
+//   (core slow_kotlin 599a614d, a8ec3b34), which the core's data_focus branch doesn't have.
+// checkCorePatches stops the build when a core file changes, so a copy is redone rather than hiding a newer core.
+val corePatches = mapOf( // path under src/main/java/common -> sha256 of the core's file the copy was made from
+    "util/lang/Formatter.java" to "9d330ccda6b4d650da659cacd4a7a18ae0e7e67f6aa1842fb040e2ad5ddab3e8",
+    "pack/Source.java" to "7c1bad260a0c893a8ddc253ff8817f6ed7849501c5979291a8a695c758b17a31",
+    "util/anim/AnimCE.java" to "2aa37259b6db443a6ae6103261b8af4a44a4c6f565992fdbe7b22506c1c95043",
+)
+fun isPatchedCoreFile(f: File) = corePatches.keys.any { f.invariantSeparatorsPath.endsWith("src/main/java/common/$it") }
 
 sourceSets {
     main {
         java {
-            srcDir("src/java8/java")
-            exclude { isCoreFormatter(it.file) }
+            srcDir("src/core-patch/java")
+            exclude { isPatchedCoreFile(it.file) }
         }
         resources {
             srcDirs("src/main/java", "src/main/resources")
@@ -46,23 +52,25 @@ sourceSets {
 
 kotlin {
     sourceSets.named("main") {
-        kotlin.exclude { isCoreFormatter(it.file) }
+        kotlin.exclude { isPatchedCoreFile(it.file) }
     }
 }
 
-val checkCoreFormatter by tasks.registering {
-    val f = file(coreFormatter)
-    inputs.file(f)
+val checkCorePatches by tasks.registering {
+    val files = corePatches.keys.map { file("src/main/java/common/$it") }
+    inputs.files(files)
     doLast {
-        val sha = MessageDigest.getInstance("SHA-256").digest(f.readBytes())
-            .joinToString("") { "%02x".format(it) }
-        if (sha != coreFormatterSha256)
-            throw GradleException("The core's Formatter.java changed (sha256 $sha): redo src/java8/java/common/util/lang/" +
-                "Formatter.java from it (Java 8 syntax) and update coreFormatterSha256 in build.gradle.kts.")
+        for ((path, expected) in corePatches) {
+            val sha = MessageDigest.getInstance("SHA-256").digest(file("src/main/java/common/$path").readBytes())
+                .joinToString("") { b -> "%02x".format(b) }
+            if (sha != expected)
+                throw GradleException("The core's $path changed (sha256 $sha): redo src/core-patch/java/common/$path " +
+                    "from it and update its sha256 in build.gradle.kts.")
+        }
     }
 }
-tasks.named("compileJava") { dependsOn(checkCoreFormatter) }
-tasks.named("compileKotlin") { dependsOn(checkCoreFormatter) }
+tasks.named("compileJava") { dependsOn(checkCorePatches) }
+tasks.named("compileKotlin") { dependsOn(checkCorePatches) }
 
 dependencies {
     api(libs.commons.codec.commons.codec)
