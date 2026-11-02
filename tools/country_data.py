@@ -1,6 +1,6 @@
 """Make src/main/resources/country/<country>: a country version's game files that differ from BCU's.
 
-BCU's game data is the Japanese game's (version 15.5 in core 0.7.20.0's asset packs). The game's other versions
+BCU's game data is the Japanese game's (version 15.7 in core 0.7.22.0's asset packs). The game's other versions
 (English, Taiwanese, Korean) differ in places, and newer versions change some files. This compares one country's
 DataLocal (from fieryhenry's BCData, see SOURCE) with BCU's packs, file by file, and copies the files that differ
 into src/main/resources/country/<country>/ (same paths as in BCU's packs, without "./org/"), listed in files.json
@@ -15,7 +15,7 @@ Only files the app can use safely are taken:
   released or has removed (a copy of the basic Cat; e.g. Japan 15.6 for finished collaborations);
 - enemy stats (t_unit.csv), cat prices and levels (unitbuy.csv, unitlevel.csv), read row by row: only when the
   file has a row for every cat or enemy BCU has;
-- talents (SkillAcquisition.csv) when they only use talent types core 0.7.20.0 knows; orb slots
+- talents (SkillAcquisition.csv) when they only use talent types core 0.7.22.0 knows; orb slots
   (equipmentslot.csv); combos (NyancomboData.csv) when they only name cats BCU has.
 Everything else (event schedules, missions, gacha...) isn't used by BCU's battles and stays BCU's.
 

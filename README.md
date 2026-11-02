@@ -14,24 +14,28 @@ official BCU. See `README.txt` in the zip (English and Korean).
 Not made by me: Battle Cats Ultimate is by the BCU team ([battlecatsultimate](https://github.com/battlecatsultimate));
 Battle Cats is © PONOS.
 
-This is [BCU-java-PC](https://github.com/battlecatsultimate/BCU-java-PC) (`slow_kotlin`, 0.5.8.8) with its full
+This is [BCU-java-PC](https://github.com/battlecatsultimate/BCU-java-PC) (`slow_kotlin`, 0.5.8.9) with its full
 history, set up for the game's country versions (Korea by default). BCU's own code (the core, `src/main/java/common`,
 a submodule of [BCU_java_util_common](https://github.com/battlecatsultimate/BCU_java_util_common)) is not edited.
 
 What's different from the official BCU:
 
-- **Core 0.7.20.0** (BCU_java_util_common `data_focus`, the core that reads BCU's newest asset packs, game version
-  15.5).
+- **Core 0.7.22.0** (BCU_java_util_common `data_focus`, the core that reads BCU's newest asset packs: game versions
+  **15.6 and 15.7**, the same core as BCU's PackPack bot).
 - **Country versions** (Configuration > Game version; Korea by default; applies when BCU next starts): the game's
-  versions of files that differ from BCU's (Japanese 15.5) ones, from version 15.6.0 of each country in
-  [fieryhenry/BCData](https://git.battlecatsmodding.org/fieryhenry/BCData/src/commit/2a49665d0135283dc5c86e8d5825bb120b2849d7/game_data),
+  versions of files that differ from BCU's (Japanese 15.7) ones, from each country's newest version in
+  [fieryhenry/BCData](https://git.battlecatsmodding.org/fieryhenry/BCData/src/commit/8644713249966c10a880e056c2f3e58fe21cd4a3/game_data),
   shipped inside the jar (`src/main/resources/country/<kr|jp|en|tw>`) and put in place of BCU's files after the
   asset packs are read (`src/main/java/io/CountryData.java`, called from `MainBCU`):
-  - Korea 15.6: 95 stages, talents, orb slots, cat prices, 1 cat's stats, plus 78 Korean enemy bases and
+  - Korea 15.6.1: 88 stage files, talents, orb slots, combos, 2 cats' stats, plus 78 Korean enemy bases and
     backgrounds from the Korean server packs;
-  - Japan 15.6 (newer than BCU's 15.5): 14 stages, talents, orb slots, cat prices, 2 cats' stats;
-  - English 15.6 and Taiwan 15.6: 68 stages each, talents, orb slots, cat prices, 1 cat's stats;
+  - Japan 15.7.2 (BCU has 15.7): 5 stage files, 1 cat's stats;
+  - English 15.6.1 and Taiwan 15.6.1: 61 stage files each, talents, orb slots, combos, 2 cats' stats;
   - or BCU's own data unchanged. The choice is kept in `user/game_version.txt`.
+
+  Korea, English and Taiwan haven't released 15.7 yet, so for them BCU's 15.7 content stays as it is where their
+  15.6 files don't replace it. Cat prices and enemy stats stay BCU's: the 15.6 tables don't have rows for the cats
+  and enemies added in 15.7.
 
   `tools/country_data.py` makes these and only takes what BCU can use safely: no stage that needs enemies,
   backgrounds or enemy bases BCU doesn't have, no cat form or spirit BCU has no pictures for, no placeholder data
@@ -43,8 +47,8 @@ What's different from the official BCU:
 ### Updating the country data
 
 ```sh
-python3 tools/country_data.py kr --keep-images   # --keep-images keeps the Korean pictures (not in DataLocal)
-python3 tools/country_data.py jp                 # also en, tw; --version for another game version
+python3 tools/country_data.py kr --version 15.6.1 --keep-images   # --keep-images keeps the Korean pictures (not in DataLocal)
+python3 tools/country_data.py jp --version 15.7.2                 # also en, tw (15.6.1)
 ```
 
 ### Building
@@ -59,8 +63,9 @@ git submodule update --init
 ### Publishing a release
 
 The "Release" workflow (`.github/workflows/release.yml`) builds the zip and publishes it as a GitHub Release. Start
-it under Actions > "Release" > Run workflow (or push a tag such as `v0.5.8.8-kr2`). For a new version, raise
-`bcuKrVersion` in `build.gradle.kts` first.
+it under Actions > "Release" > Run workflow (or push a tag such as `v0.5.8.9-kr2`). For a new version, raise
+`bcuKrVersion` in `build.gradle.kts` first. Pushes to branches other than `main` run the "Build" workflow, which
+only checks that the zip builds (the zip is kept as a workflow artifact for 7 days).
 
 ### Updating from BCU
 
