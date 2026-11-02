@@ -20,8 +20,10 @@ a submodule of [BCU_java_util_common](https://github.com/battlecatsultimate/BCU_
 
 What's different from the official BCU:
 
-- **Core 0.7.22.0** (BCU_java_util_common `data_focus`, the core that reads BCU's newest asset packs: game versions
-  **15.6 and 15.7**, the same core as BCU's PackPack bot).
+- **Core 0.7.22.0** (BCU_java_util_common `data_focus` at `b3b9799` "support 15.7", the core that reads BCU's newest
+  asset packs: game versions **15.6 and 15.7**). PackPack uses two later commits from the same day (ATK/HP talent
+  rounding, shortened cooldown talent); they need Java 14+ and change a class BCU PC's own code uses, so they wait
+  until BCU PC supports them.
 - **Country versions** (Configuration > Game version; Korea by default; applies when BCU next starts): the game's
   versions of files that differ from BCU's (Japanese 15.7) ones, from each country's newest version in
   [fieryhenry/BCData](https://git.battlecatsmodding.org/fieryhenry/BCData/src/commit/8644713249966c10a880e056c2f3e58fe21cd4a3/game_data),
