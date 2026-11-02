@@ -1,5 +1,6 @@
 package page.info.edit;
 
+import common.CommonStatic;
 import common.util.Data;
 import common.util.Data.Proc;
 import common.util.lang.Formatter;
@@ -157,7 +158,7 @@ public abstract class ProcTable extends Page {
 	}
 
 	private void ini() {
-		Formatter.Context ctx = new Formatter.Context(!isUnit, MainBCU.seconds, new double[]{1.0, 1.0});
+		Formatter.Context ctx = new Formatter.Context(!isUnit, MainBCU.seconds, new double[]{1.0, 1.0}, CommonStatic.getConfig().lang);
 		for (int i = 0; i < group.length; i++) {
 			group[i] = new SwingEditor.SwingEG(inds[i], editable, () -> getFront().callBack(null), ctx);
 			add(group[i].jlm);

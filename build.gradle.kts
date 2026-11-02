@@ -22,14 +22,45 @@ repositories {
     mavenCentral()
 }
 
+// BCU KR: the core's common/util/lang/Formatter.java uses Java 14 switch expressions; src/java8/java has the same file
+// written for Java 8 (only Context.ordinal() differs) and is compiled instead. checkCoreFormatter stops the build when
+// the core's file changes, so the copy is redone from the new file rather than hiding it.
+val coreFormatter = "src/main/java/common/util/lang/Formatter.java"
+val coreFormatterSha256 = "9d330ccda6b4d650da659cacd4a7a18ae0e7e67f6aa1842fb040e2ad5ddab3e8" // core a3fb0117
+fun isCoreFormatter(f: File) = f.invariantSeparatorsPath.endsWith(coreFormatter)
+
 sourceSets {
     main {
+        java {
+            srcDir("src/java8/java")
+            exclude { isCoreFormatter(it.file) }
+        }
         resources {
             srcDirs("src/main/java", "src/main/resources")
             exclude("**/*.java")
         }
     }
 }
+
+kotlin {
+    sourceSets.named("main") {
+        kotlin.exclude { isCoreFormatter(it.file) }
+    }
+}
+
+val checkCoreFormatter by tasks.registering {
+    val f = file(coreFormatter)
+    inputs.file(f)
+    doLast {
+        val sha = java.security.MessageDigest.getInstance("SHA-256").digest(f.readBytes())
+            .joinToString("") { "%02x".format(it) }
+        if (sha != coreFormatterSha256)
+            throw GradleException("The core's Formatter.java changed (sha256 $sha): redo src/java8/java/common/util/lang/" +
+                "Formatter.java from it (Java 8 syntax) and update coreFormatterSha256 in build.gradle.kts.")
+    }
+}
+tasks.named("compileJava") { dependsOn(checkCoreFormatter) }
+tasks.named("compileKotlin") { dependsOn(checkCoreFormatter) }
 
 dependencies {
     api(libs.commons.codec.commons.codec)
@@ -91,7 +122,7 @@ kotlin {
 }
 // BCU KR: a ready-to-run zip: BCU-KR.jar (starts with a double-click or `java -jar BCU-KR.jar`), its libraries in
 // lib/ and a short read-me. Official BCU is started by BCU-Initializer.jar instead, which downloads the official jar.
-val bcuKrVersion = "0.5.8.9-kr1" // BCU PC 0.5.8.9 (MainBCU.ver 50809) + this copy's changes
+val bcuKrVersion = "0.5.8.9-kr2" // BCU PC 0.5.8.9 (MainBCU.ver 50809) + this copy's changes
 
 tasks.jar {
     archiveFileName.set("BCU-KR.jar")

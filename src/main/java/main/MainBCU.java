@@ -68,11 +68,13 @@ public class MainBCU {
 		public InputStream getLangFile(String file) {
 			File f = new File(getBCUFolder(),
 					"./assets/lang/" + CommonStatic.getConfig().lang.code + "/" + file);
+			InputStream in;
 			if (!f.exists()) {
 				String path = "common/util/lang/assets/" + file;
-				return ClassLoader.getSystemResourceAsStream(path);
-			}
-			return Data.err(() -> new FileInputStream(f));
+				in = ClassLoader.getSystemResourceAsStream(path);
+			} else
+				in = Data.err(() -> new FileInputStream(f));
+			return io.LangExtra.addMissing(file, in);
 		}
 
 		@Override

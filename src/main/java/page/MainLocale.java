@@ -68,6 +68,9 @@ public strictfp class MainLocale {
 				for (String s : strs) ans.append(s);
 				return ans.toString();
 			}
+			String extra = exLang ? null : io.LangExtra.text(RENN[loc], langCode(), key); // BCU KR
+			if (extra != null)
+				return extra;
 			try {
 				return exLang ? "[" + loci + key + "]" : RENS[loc].getString(key);
 			} catch (MissingResourceException e) {

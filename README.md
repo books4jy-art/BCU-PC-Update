@@ -20,24 +20,30 @@ a submodule of [BCU_java_util_common](https://github.com/battlecatsultimate/BCU_
 
 What's different from the official BCU:
 
-- **Core 0.7.22.0** (BCU_java_util_common `data_focus` at `b3b9799` "support 15.7", the core that reads BCU's newest
-  asset packs: game versions **15.6 and 15.7**). PackPack uses two later commits from the same day (ATK/HP talent
-  rounding, shortened cooldown talent); they need Java 14+ and change a class BCU PC's own code uses, so they wait
-  until BCU PC supports them.
+- **Core 0.7.22.0** (BCU_java_util_common `data_focus` at `a3fb0117`, the same core as BCU's PackPack bot: game
+  versions **15.6 and 15.7**, with 15.7's talent slots ("ultra talent" expansion), Damage+ / Health+ talents and the
+  Shortened Cooldown ability). Official BCU PC is still on core 0.7.19.1. To run this core on Java 8:
+  - `src/java8/java/common/util/lang/Formatter.java` is the core's file with one method (`ordinal`) written for Java 8;
+    the build uses it instead of the core's and stops if the core's file changes (`checkCoreFormatter`).
+  - BCU PC's two `Formatter.Context` calls pass the language, as the new core expects.
+- **Text the core and BCU's downloads don't have yet** (`io/LangExtra.java`, `src/main/resources/bcukr/`): the
+  Shortened CD ability's name and description (English, Korean), talent names 69-72 in English (`util.properties`)
+  and Korean talent names 61-72 (BCU's Korean file stops at 60), with PackPack's wording. Downloaded or newer core text
+  always wins. The unit info page also lists Shortened CD.
 - **Country versions** (Configuration > Game version; Korea by default; applies when BCU next starts): the game's
   versions of files that differ from BCU's (Japanese 15.7) ones, from each country's newest version in
   [fieryhenry/BCData](https://git.battlecatsmodding.org/fieryhenry/BCData/src/commit/8644713249966c10a880e056c2f3e58fe21cd4a3/game_data),
   shipped inside the jar (`src/main/resources/country/<kr|jp|en|tw>`) and put in place of BCU's files after the
   asset packs are read (`src/main/java/io/CountryData.java`, called from `MainBCU`):
-  - Korea 15.6.1: 88 stage files, talents, orb slots, combos, 2 cats' stats, plus 78 Korean enemy bases and
-    backgrounds from the Korean server packs;
+  - Korea 15.6.1: 86 stage files, plus 78 Korean enemy bases and backgrounds from the Korean server packs;
   - Japan 15.7.2 (BCU has 15.7): 5 stage files, 1 cat's stats;
-  - English 15.6.1 and Taiwan 15.6.1: 61 stage files each, talents, orb slots, combos, 2 cats' stats;
+  - English 15.6.1 and Taiwan 15.6.1: 59 stage files each;
   - or BCU's own data unchanged. The choice is kept in `user/game_version.txt`.
 
-  Korea, English and Taiwan haven't released 15.7 yet, so for them BCU's 15.7 content stays as it is where their
-  15.6 files don't replace it. Cat prices and enemy stats stay BCU's: the 15.6 tables don't have rows for the cats
-  and enemies added in 15.7.
+  Korea, English and Taiwan haven't released 15.7 yet. For them a file is only used when it is a real regional
+  difference: it differs from **Japan's file of the same version** (15.6.0), and BCU's file hasn't changed since then
+  (`--base 15.6.0`). Everything else stays BCU's 15.7 data, including talents (15.7 has more talent slots), orb slots,
+  cat prices, combos and cat stats.
 
   `tools/country_data.py` makes these and only takes what BCU can use safely: no stage that needs enemies,
   backgrounds or enemy bases BCU doesn't have, no cat form or spirit BCU has no pictures for, no placeholder data
@@ -49,8 +55,8 @@ What's different from the official BCU:
 ### Updating the country data
 
 ```sh
-python3 tools/country_data.py kr --version 15.6.1 --keep-images   # --keep-images keeps the Korean pictures (not in DataLocal)
-python3 tools/country_data.py jp --version 15.7.2                 # also en, tw (15.6.1)
+python3 tools/country_data.py kr --version 15.6.1 --base 15.6.0 --keep-images   # --keep-images keeps the Korean pictures
+python3 tools/country_data.py jp --version 15.7.2                               # en, tw: as kr, without --keep-images
 ```
 
 ### Building

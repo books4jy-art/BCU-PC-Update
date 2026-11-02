@@ -19,7 +19,7 @@ Only files the app can use safely are taken:
   (equipmentslot.csv); combos (NyancomboData.csv) when they only name cats BCU has.
 Everything else (event schedules, missions, gacha...) isn't used by BCU's battles and stays BCU's.
 
-Usage: python3 tools/country_data.py COUNTRY [--version 15.6.0] [--keep-images]
+Usage: python3 tools/country_data.py COUNTRY [--version 15.6.0] [--base 15.6.0] [--keep-images]
   COUNTRY: en, jp, kr or tw. --keep-images keeps the pictures already listed (./org/img/..., e.g. the Korean enemy
   bases from the Korean server packs), which aren't in DataLocal.
 Needs Python 3 with `cryptography`. Downloads are cached in tools/.cache/.
@@ -185,6 +185,11 @@ def main() -> None:
     ap.add_argument("country", choices=["en", "jp", "kr", "tw"])
     ap.add_argument("--version", default="15.6.0")
     ap.add_argument("--keep-images", action="store_true")
+    ap.add_argument("--base", default=None,
+                    help="Japan's version matching COUNTRY's (e.g. 15.6.0), when COUNTRY is older than BCU's data: a file "
+                         "is only taken when it differs from Japan's of that version (a real regional difference) and "
+                         "BCU's file hasn't changed since then (taking it would undo a newer update, e.g. 15.7's talent "
+                         "slots)")
     args = ap.parse_args()
     out_dir = os.path.join(ROOT, "src", "main", "resources", "country", args.country)
 
@@ -216,6 +221,7 @@ def main() -> None:
     print(f"{args.country} {args.version}: {len(names)} files, {len(pairs)} to compare")
 
     placeholder = rows(country_file(args.country, args.version, "unit001.csv")) if "unit001.csv" in names else None
+    base_names = set(country_names("jp", args.base)) if args.base else set()
 
     def check(p: str) -> tuple[str, str | None]:
         """(path, why it's skipped / None to take it / '' when it's the same as BCU's)."""
@@ -225,6 +231,14 @@ def main() -> None:
         if a == b:
             return p, ""
         name = p.rsplit("/", 1)[1]
+        if args.base:
+            if pairs[p] not in base_names:
+                return p, f"not in Japan {args.base} (can't tell a regional difference from a version difference)"
+            jp = rows(country_file("jp", args.base, pairs[p]))
+            if a == jp:
+                return p, f"same as Japan {args.base}: only older than BCU's"
+            if jp != b:
+                return p, f"BCU's changed since Japan {args.base}: taking it would undo a newer update"
         if p.startswith("./org/stage/") and not name.startswith("stage"):
             # a map's file (MapStageData...: one row per stage, crowns, ...): an extra row would be a stage BCU
             # doesn't have
@@ -270,8 +284,8 @@ def main() -> None:
         if name == "SkillAcquisition.csv":
             for line in a[1:]:
                 v = ints(line)
-                for t in range(8):
-                    if 2 + t * 14 < len(v) and v[2 + t * 14] >= TALENT_TYPES:
+                for t in range((len(v) - 2) // 14):  # 8 talent slots before 15.7, 11 since
+                    if v[2 + t * 14] >= TALENT_TYPES:
                         return p, f"talent type {v[2 + t * 14]} unknown to core {CORE_VER}"
             return p, None
         if name == "NyancomboData.csv":

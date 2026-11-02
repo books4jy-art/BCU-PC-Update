@@ -1,14 +1,9 @@
 {
-"./org/data/NyancomboData.csv": 18076,
-"./org/data/SkillAcquisition.csv": 49988,
-"./org/data/equipmentslot.csv": 1279,
 "./org/stage/C/MSDC/MapStageDataC_101.csv": 778,
 "./org/stage/C/MSDC/MapStageDataC_178.csv": 182,
-"./org/stage/C/MSDC/MapStageDataC_219.csv": 128,
 "./org/stage/C/StageRC/stageRC090_00.csv": 1028,
 "./org/stage/CA/MSDCA/MapStageDataCA_006.csv": 1616,
 "./org/stage/CA/MSDCA/MapStageDataCA_009.csv": 318,
-"./org/stage/CA/MSDCA/MapStageDataCA_017.csv": 649,
 "./org/stage/CH/stage/stage04.csv": 441,
 "./org/stage/CH/stage/stage05.csv": 441,
 "./org/stage/CH/stage/stage09.csv": 471,
@@ -62,7 +57,5 @@
 "./org/stage/S/MSDS/MapStageDataS_412.csv": 415,
 "./org/stage/S/StageRS/stageRS224_00.csv": 588,
 "./org/stage/S/StageRS/stageRS267_02.csv": 686,
-"./org/stage/S/StageRS/stageRS419_05.csv": 411,
-"./org/unit/746/unit746.csv": 744,
-"./org/unit/754/unit754.csv": 776
+"./org/stage/S/StageRS/stageRS419_05.csv": 411
 }
