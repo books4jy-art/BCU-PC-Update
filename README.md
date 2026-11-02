@@ -28,11 +28,17 @@ What's different from the official BCU:
   - `pack/Source.java`, `util/anim/AnimCE.java`: official 0.5.8.9's fix for renaming animations deleting them (on the
     core's `slow_kotlin` branch, not yet on `data_focus`).
   BCU PC's two `Formatter.Context` calls pass the language, as the new core expects.
-- **Text the core and BCU's downloads don't have yet** (`io/LangExtra.java`, `src/main/resources/bcukr/`): the
-  Shortened CD ability's name and description (English, Korean), talent names 69-72 in English (`util.properties`)
-  and Korean talent names 61-72 (BCU's Korean file stops at 60), with PackPack's wording. Downloaded or newer core text
-  always wins. The unit info page also lists Shortened CD.
-- **Country versions** (Configuration > Game version; Korea by default; applies when BCU next starts): the game's
+- **Korean names as in the game** (`io/LangExtra.java`, `src/main/resources/bcukr/`). BCU's downloaded Korean text
+  (kr-util.properties, 14.5) has wrong and shifted names (e.g. talents 44-48 one off: "immune to slow" read 정지 무효;
+  colossus and sage both read 기지; 멧집), so these replace it, from the Korean game's own text (Korea 15.6.1 resLocal):
+  talent names 1-69 (`localizable.tsv` potential_skill_name), traits (`attribute_explonation.tsv`), and ability names
+  with an official talent name (`util_kr_override.properties`, `proc_kr_override.json`). Delay / delay immunity use
+  PackPack's 쿨다운 지연; talents 70-72 (not in Korea yet) PackPack's 공격력+ / 체력+ / 쿨다운 감소. Abilities the game
+  never names in Korean (enemy-only ones) keep BCU's text.
+- **Text the core doesn't have yet**: the Shortened CD ability's name and description (PackPack's wording) and English
+  talent names 69-72 (`util.properties`). The unit info page also lists Shortened CD.
+- **"Settings"**: the English main menu button reads Settings instead of Configuration.
+- **Country versions** (Settings > Game version; Korea by default; applies when BCU next starts): the game's
   versions of files that differ from BCU's (Japanese 15.7) ones, from each country's newest version in
   [fieryhenry/BCData](https://git.battlecatsmodding.org/fieryhenry/BCData/src/commit/8644713249966c10a880e056c2f3e58fe21cd4a3/game_data),
   shipped inside the jar (`src/main/resources/country/<kr|jp|en|tw>`) and put in place of BCU's files after the

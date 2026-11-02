@@ -20,7 +20,8 @@ import java.util.Properties;
  * bcukr/&lt;file&gt;, e.g. "Shortened CD" (CDDEC, added in game version 15.7), with the wording BCU's PackPack bot uses.
  * Entries the loaded file has are never replaced, so a newer core or downloaded file wins.
  * For interface text (page/info/internet/util.properties), {@link #text} gives entries missing from the downloaded
- * language file from bcukr/&lt;name&gt;_&lt;language&gt;.properties, e.g. Korean names of talents added since game version 14.5.
+ * language file from bcukr/&lt;name&gt;_&lt;language&gt;.properties, e.g. Korean names of talents the Korean game doesn't have
+ * yet; and bcukr/&lt;name&gt;_&lt;language&gt;_override.properties replaces names so they read as in the Korean game.
  */
 public class LangExtra {
 
@@ -47,7 +48,7 @@ public class LangExtra {
 		if (in == null || !file.startsWith("proc") || !file.endsWith(".json"))
 			return in;
 		InputStream extra = ClassLoader.getSystemResourceAsStream("bcukr/" + file);
-		if (extra == null)
+		if (extra == null && ClassLoader.getSystemResource("bcukr/" + file.replace(".json", "_override.json")) == null)
 			return in;
 		byte[] original;
 		try {
@@ -59,20 +60,47 @@ public class LangExtra {
 		try {
 			JsonObject base = JsonParser.parseReader(new InputStreamReader(new ByteArrayInputStream(original),
 					StandardCharsets.UTF_8)).getAsJsonObject();
-			JsonObject add = JsonParser.parseReader(new InputStreamReader(extra, StandardCharsets.UTF_8))
-					.getAsJsonObject();
-			for (Map.Entry<String, JsonElement> e : add.entrySet())
-				if (!base.has(e.getKey()))
-					base.add(e.getKey(), e.getValue());
+			if (extra != null) {
+				JsonObject add = JsonParser.parseReader(new InputStreamReader(extra, StandardCharsets.UTF_8))
+						.getAsJsonObject();
+				for (Map.Entry<String, JsonElement> e : add.entrySet())
+					if (!base.has(e.getKey()))
+						base.add(e.getKey(), e.getValue());
+			}
+			overrideNames(file, base);
 			return new ByteArrayInputStream(base.toString().getBytes(StandardCharsets.UTF_8));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ByteArrayInputStream(original);
 		} finally {
 			try {
-				extra.close();
+				if (extra != null)
+					extra.close();
 			} catch (IOException ignored) {
 			}
+		}
+	}
+
+	/**
+	 * Replaces ability names (abbr_name, full_name; not descriptions) with those in resources
+	 * bcukr/&lt;file&gt;_override.json, e.g. the Korean game's own names in proc_kr_override.json.
+	 */
+	private static void overrideNames(String file, JsonObject base) {
+		InputStream in = ClassLoader.getSystemResourceAsStream("bcukr/" + file.replace(".json", "_override.json"));
+		if (in == null)
+			return;
+		try (InputStreamReader r = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+			JsonObject ov = JsonParser.parseReader(r).getAsJsonObject();
+			for (Map.Entry<String, JsonElement> e : ov.entrySet()) {
+				if (!e.getValue().isJsonObject() || !base.has(e.getKey()) || !base.get(e.getKey()).isJsonObject())
+					continue;
+				JsonObject target = base.getAsJsonObject(e.getKey());
+				for (String field : new String[] { "abbr_name", "full_name" })
+					if (e.getValue().getAsJsonObject().has(field))
+						target.add(field, e.getValue().getAsJsonObject().get(field));
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 

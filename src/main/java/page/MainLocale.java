@@ -55,6 +55,9 @@ public strictfp class MainLocale {
 		if (loc >= 0 && loc < 4) {
 			String loci = RENN[loc] + "_";
 			String locl = loci + langCode();
+			String fixed = exLang ? null : io.LangExtra.text(RENN[loc], langCode() + "_override", key); // BCU KR
+			if (fixed != null)
+				return fixed;
 			if (NAMP.containsKey(locl) && NAMP.get(locl).contains(key)) {
 				String str = NAMP.get(loci + langCode()).get(key);
 				if (str.equals("(null)"))

@@ -9,7 +9,7 @@ Not made by me: Battle Cats Ultimate is by the BCU team (github.com/battlecatsul
 3. Start BCU-KR.jar (double-click it, or run: java -jar BCU-KR.jar).
    The first start downloads BCU's game data (several hundred MB).
 
-Game version: Settings (Config) > Game version: Korea 15.6 (default), Japan 15.7, English or Taiwan 15.6,
+Game version: Settings > Game version: Korea 15.6 (default), Japan 15.7, English or Taiwan 15.6,
 or BCU's own data (Japan 15.7).
 It applies the next time BCU starts.
 
@@ -18,5 +18,5 @@ BCU KR (PC용 배틀 캣츠 얼티밋: BCU 코어 0.7.22.0 + 나라별 게임 �
 2. 이 폴더(BCU-KR.jar와 lib 폴더)를 함께, 쓰기 가능한 곳(예: 문서)에 두세요. 게임 데이터와 설정은 이 폴더에
    저장되고, 공식 BCU와는 따로 보관돼요.
 3. BCU-KR.jar를 실행하세요 (더블클릭, 또는 java -jar BCU-KR.jar). 처음 실행할 때 게임 데이터(수백 MB)를 받아요.
-게임 버전: 설정(Config) > 게임 버전에서 한국판 15.6(기본), 일본판 15.7, 영어판·대만판 15.6 또는 BCU 기본 데이터(일본판 15.7)를 고를 수
+게임 버전: 설정 > 게임 버전에서 한국판 15.6(기본), 일본판 15.7, 영어판·대만판 15.6 또는 BCU 기본 데이터(일본판 15.7)를 고를 수
 있어요. 다음에 BCU를 시작할 때 적용돼요.

@@ -1,0 +1,131 @@
+{
+ "_comment": "BCU KR: Korean ability names replacing those in the core's proc_kr.json, from the Korean game's own talent names (localizable.tsv potential_skill_nameN, Korea 15.6.1); DELAY/IMUDELAY from BCU's PackPack bot. Only names are replaced, not descriptions.",
+ "KB": {
+  "abbr_name": "날려버린다",
+  "full_name": "날려버린다"
+ },
+ "STOP": {
+  "abbr_name": "움직임을 멈춘다",
+  "full_name": "움직임을 멈춘다"
+ },
+ "SLOW": {
+  "abbr_name": "움직임을 느리게 한다",
+  "full_name": "움직임을 느리게 한다"
+ },
+ "WAVE": {
+  "abbr_name": "파동 공격",
+  "full_name": "파동 공격"
+ },
+ "WEAK": {
+  "abbr_name": "공격력 다운",
+  "full_name": "공격력 다운"
+ },
+ "BREAK": {
+  "abbr_name": "베리어 브레이커",
+  "full_name": "베리어 브레이커"
+ },
+ "STRONG": {
+  "abbr_name": "공격력 업",
+  "full_name": "공격력 업"
+ },
+ "LETHAL": {
+  "abbr_name": "살아남는다",
+  "full_name": "살아남는다"
+ },
+ "IMUKB": {
+  "abbr_name": "날려버린다 무효",
+  "full_name": "날려버린다 무효"
+ },
+ "IMUSTOP": {
+  "abbr_name": "움직임을 멈춘다 무효",
+  "full_name": "움직임을 멈춘다 무효"
+ },
+ "IMUSLOW": {
+  "abbr_name": "움직임을 느리게 한다 무효",
+  "full_name": "움직임을 느리게 한다 무효"
+ },
+ "IMUWAVE": {
+  "abbr_name": "파동 데미지 무효",
+  "full_name": "파동 데미지 무효"
+ },
+ "IMUWEAK": {
+  "abbr_name": "공격력 다운 무효",
+  "full_name": "공격력 다운 무효"
+ },
+ "IMUWARP": {
+  "abbr_name": "워프 무효",
+  "full_name": "워프 무효"
+ },
+ "IMUCURSE": {
+  "abbr_name": "고대의 저주 무효",
+  "full_name": "고대의 저주 무효"
+ },
+ "SATK": {
+  "abbr_name": "혼신의 일격",
+  "full_name": "혼신의 일격"
+ },
+ "IMUATK": {
+  "abbr_name": "공격 무효",
+  "full_name": "공격 무효"
+ },
+ "VOLC": {
+  "abbr_name": "열파 공격",
+  "full_name": "열파 공격"
+ },
+ "IMUPOIATK": {
+  "abbr_name": "독 데미지 무효",
+  "full_name": "독 데미지 무효"
+ },
+ "IMUVOLC": {
+  "abbr_name": "열파 데미지 무효",
+  "full_name": "열파 데미지 무효"
+ },
+ "MINIWAVE": {
+  "abbr_name": "소파동",
+  "full_name": "소파동"
+ },
+ "SHIELDBREAK": {
+  "abbr_name": "쉴드 브레이커",
+  "full_name": "쉴드 브레이커"
+ },
+ "ATKBASE": {
+  "abbr_name": "성 파괴가 특기",
+  "full_name": "성 파괴가 특기"
+ },
+ "BSTHUNT": {
+  "abbr_name": "초수 특효",
+  "full_name": "초수 특효"
+ },
+ "MINIVOLC": {
+  "abbr_name": "소열파",
+  "full_name": "소열파"
+ },
+ "BLAST": {
+  "abbr_name": "폭파 공격",
+  "full_name": "폭파 공격"
+ },
+ "IMUBLAST": {
+  "abbr_name": "폭파 데미지 무효",
+  "full_name": "폭파 데미지 무효"
+ },
+ "CURSE": {
+  "abbr_name": "저주",
+  "full_name": "저주"
+ },
+ "CRIT": {
+  "abbr_name": "크리티컬",
+  "full_name": "크리티컬"
+ },
+ "WARP": {
+  "abbr_name": "워프",
+  "full_name": "워프"
+ },
+ "DELAY": {
+  "abbr_name": "쿨다운 지연",
+  "full_name": "쿨다운 지연/가속"
+ },
+ "IMUDELAY": {
+  "abbr_name": "쿨다운 지연 무효",
+  "full_name": "쿨다운 지연 무효"
+ }
+}
