@@ -1,0 +1,40 @@
+# Builds BCU KR (build/dist/BCU-KR-<version>.zip) without publishing anything, to check a change builds.
+# The zip is kept as a workflow artifact for a few days. Runs on pushes to branches other than main,
+# and by hand (Actions > "Build" > Run workflow).
+name: Build
+
+on:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: true
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build
+        # Retried once: the JOGL server (jogamp.org) is sometimes unreachable from GitHub.
+        run: ./gradlew bcuKrZip --no-configuration-cache --console=plain || { sleep 60; ./gradlew bcuKrZip --no-configuration-cache --console=plain; }
+      - name: Check the zip
+        run: |
+          zip=$(ls build/dist/BCU-KR-*.zip)
+          unzip -l "$zip" | grep -q "BCU-KR/BCU-KR.jar" || { echo "::error::BCU-KR.jar is missing"; exit 1; }
+          unzip -p "$zip" BCU-KR/BCU-KR.jar > /tmp/bcu.jar
+          for c in kr jp en tw; do
+            unzip -l /tmp/bcu.jar | grep -q "country/$c/files.json" \
+              || { echo "::error::The country data list country/$c/files.json is missing from the jar."; exit 1; }
+          done
+          unzip -p /tmp/bcu.jar META-INF/MANIFEST.MF | grep -q "Class-Path: lib/" || { echo "::error::No Class-Path"; exit 1; }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BCU-KR-zip
+          path: build/dist/BCU-KR-*.zip
+          retention-days: 7

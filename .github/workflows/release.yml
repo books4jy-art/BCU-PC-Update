@@ -51,7 +51,7 @@ jobs:
           tag="${TAG_INPUT:-${GITHUB_REF_NAME}}"
           case "$tag" in v*) ;; *) tag="v$ver" ;; esac
           zip="build/dist/BCU-KR-$ver.zip"
-          notes="BCU KR $ver: Battle Cats Ultimate for PC with BCU core 0.7.20.0 and the game's country versions (Settings > Game version: Korea, Japan, English or Taiwan 15.6, or BCU's own data).
+          notes="BCU KR $ver: Battle Cats Ultimate for PC with BCU core 0.7.22.0 (game data 15.7) and the game's country versions (Settings > Game version: Korea 15.6, Japan 15.7, English or Taiwan 15.6, or BCU's own data).
 
           Download **BCU-KR-$ver.zip** below, unzip it into its own folder, install Java 8 or newer and start **BCU-KR.jar**. See README.txt inside.
 
